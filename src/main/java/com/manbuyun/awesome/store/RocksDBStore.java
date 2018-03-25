@@ -82,6 +82,17 @@ public class RocksDBStore<K, V> implements IFileStore<K, V> {
     }
 
     @Override
+    public void remove(K key) {
+        Validate.notNull(key);
+
+        try {
+            db.delete(KryoSerDe.serialize(key));
+        } catch (Exception e) {
+            log.error("Failed to remove key: [{}]", key, e);
+        }
+    }
+
+    @Override
     public void close() {
         if (db != null) {
             db.close();

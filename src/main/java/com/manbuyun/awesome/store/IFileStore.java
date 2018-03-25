@@ -14,5 +14,7 @@ public interface IFileStore<K, V> {
 
     void putAll(Map<? extends K, ? extends V> m);
 
+    void remove(K key);
+
     void close();
 }
