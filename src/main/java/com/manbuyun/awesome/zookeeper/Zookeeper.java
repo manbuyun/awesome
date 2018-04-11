@@ -67,6 +67,11 @@ public class Zookeeper {
                 case RECONNECTED:
                     log.warn("重新连接成功");
                     // 这里重连成功只表示网络心跳，当使用临时节点时，重连并不会重新注册临时节点，所以这里必须加上临时节点的重新注册机制
+                    try {
+                        client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath("/path4", data);
+                    } catch (Exception e) {
+                        log.error("重连成功，注册节点失败", e);
+                    }
                     break;
                 case LOST:
                     // SessionConnectionStateErrorPolicy类：当Curator认为ZooKeeper会话已经过期，则进入此状态
