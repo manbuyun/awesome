@@ -49,7 +49,7 @@ public class Zookeeper {
      */
     @BeforeTest
     public void init() throws Exception {
-        // 默认时，会话超时60s，连接创建超时15s
+        // 默认时，会话超时60s，连接创建超时15s，尝试连接的间隔是指数算法
         // 该客户端对zookeeper的操作都是基于/test相对目录进行，不需要create这个节点。这里不加反斜线！
         // ExponentialBackoffRetry: zk连接异常时，自动重连策略。curator: 所有的操作forPath，都是执行RetryLoop.callWithRetry，封装StandardConnectionHandlingPolicy.callWithRetry
         client = CuratorFrameworkFactory.builder().connectString("10.104.111.35:2181").sessionTimeoutMs(60000).connectionTimeoutMs(15000).retryPolicy(new ExponentialBackoffRetry(5000, 3)).namespace("test").build();
@@ -74,7 +74,8 @@ public class Zookeeper {
                     }
                     break;
                 case LOST:
-                    // SessionConnectionStateErrorPolicy类：当Curator认为ZooKeeper会话已经过期，则进入此状态
+                    // SessionConnectionStateErrorPolicy类：当Curator认为ZooKeeper会话已经过期SessionTimeout，则进入此状态
+                    // 当GC时，zk无法获得客户端的心跳，超过60s也会SessionTimeout
                     log.error("连接丢失");
                     break;
             }
@@ -106,10 +107,6 @@ public class Zookeeper {
     public void createNode() throws Exception {
         // 默认创建持久节点，内容默认为空
         client.create().withMode(CreateMode.EPHEMERAL).forPath("/path1", data);
-
-        kill();
-
-        TimeUnit.SECONDS.sleep(100);
 
         client.create().withMode(CreateMode.EPHEMERAL).forPath("/path2", data);
 
