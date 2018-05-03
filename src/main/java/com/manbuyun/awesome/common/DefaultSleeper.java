@@ -1,4 +1,4 @@
-package com.manbuyun.awesome.utils;
+package com.manbuyun.awesome.common;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.manbuyun.awesome.utils;
+package com.manbuyun.awesome.common;
 
 import java.util.concurrent.TimeUnit;
 

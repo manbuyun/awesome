@@ -1,7 +1,7 @@
 package com.manbuyun.awesome.collections;
 
-import com.manbuyun.awesome.utils.DefaultSleeper;
-import com.manbuyun.awesome.utils.Sleeper;
+import com.manbuyun.awesome.common.DefaultSleeper;
+import com.manbuyun.awesome.common.Sleeper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.testng.annotations.Test;
