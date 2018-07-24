@@ -26,6 +26,7 @@ public class ConcurrentReferenceMap {
     @Test
     public void concurrentWeakReference() {
         ConcurrentReferenceHashMap<String, String> map = new ConcurrentReferenceHashMap<>(16, ConcurrentReferenceHashMap.ReferenceType.WEAK);
+//        ConcurrentMap<String, String> map = new MapMaker().weakValues().makeMap();
         map.put("key", "value");
         log.info("map: {}", map);
 
