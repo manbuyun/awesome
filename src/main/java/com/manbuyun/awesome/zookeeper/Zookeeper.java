@@ -20,9 +20,6 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.Stat;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Executors;
@@ -47,7 +44,6 @@ public class Zookeeper {
      *
      * @throws Exception
      */
-    @BeforeTest
     public void init() throws Exception {
         // 默认时，会话超时60s，连接创建超时15s，尝试连接的间隔是指数算法
         // 该客户端对zookeeper的操作都是基于/test相对目录进行，不需要create这个节点。这里不加反斜线！
@@ -103,7 +99,6 @@ public class Zookeeper {
         }
     }
 
-    @Test
     public void createNode() throws Exception {
         // 默认创建持久节点，内容默认为空
         client.create().withMode(CreateMode.EPHEMERAL).forPath("/path1", data);
@@ -118,7 +113,6 @@ public class Zookeeper {
         client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath("/path4", data);
     }
 
-    @Test
     public void deleteNode() throws Exception {
         client.create().forPath("/path1");
         client.create().forPath("/path2");
@@ -141,7 +135,6 @@ public class Zookeeper {
         client.delete().withVersion(stat.getVersion()).forPath("/path4");
     }
 
-    @Test
     public void getData() throws Exception {
         client.create().forPath("/path1", data);
 
@@ -152,7 +145,6 @@ public class Zookeeper {
         byte[] bytes2 = client.getData().storingStatIn(stat).forPath("/path1");
     }
 
-    @Test
     public void setData() throws Exception {
         client.create().forPath("/path1");
 
@@ -163,7 +155,6 @@ public class Zookeeper {
         Stat stat1 = client.setData().withVersion(stat.getVersion()).forPath("/path1");
     }
 
-    @Test
     public void inBackground() throws Exception {
         // 添加自定义executor，处理耗时事件
         client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).inBackground((client, event) -> {
@@ -179,7 +170,6 @@ public class Zookeeper {
      *
      * @throws Exception
      */
-    @Test
     public void nodeWatch() throws Exception {
         String path = "/nodeWatch";
 
@@ -203,7 +193,6 @@ public class Zookeeper {
         client.delete().forPath(path);
     }
 
-    @Test
     public void childrenWatch() throws Exception {
         String path = "/childrenWatch";
 
@@ -255,7 +244,6 @@ public class Zookeeper {
      * <p>
      * 不推荐使用
      */
-    @Test
     public void getWatch() throws Exception {
         client.getData().watched().forPath("/path1");
         client.getChildren().watched().forPath("/path2");
@@ -282,7 +270,6 @@ public class Zookeeper {
     /**
      * 当takeLeadership方法执行完，zk集群会发起新一轮leader选举。不适合HA方案
      */
-    @Test
     public void leaderSelector() {
         // 不需要预先创建/leader_selector目录
         // stateChanged接口，继承LeaderSelectorListenerAdapter的默认实现
@@ -307,7 +294,6 @@ public class Zookeeper {
      *
      * @throws Exception
      */
-    @Test
     public void leaderLatch() throws Exception {
         // 最后一个参数是id，也就是leader的info信息：host、port等序列化。/test/leader_latch
         LeaderLatch leader = new LeaderLatch(client, "/leader_election", "localhost");
@@ -340,12 +326,10 @@ public class Zookeeper {
         leader.await();
     }
 
-    @AfterTest
     public void close() throws InterruptedException {
         CloseableUtils.closeQuietly(client);
     }
 
-    @Test
     public void kill() throws Exception {
         KillSession.kill(client.getZookeeperClient().getZooKeeper());
     }
