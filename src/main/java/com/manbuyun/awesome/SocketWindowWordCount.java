@@ -82,7 +82,6 @@ public class SocketWindowWordCount {
             for (int i = 0; i < 100000; i++) {
                 checkpointedState.add(i);
             }
-            int i = 0;
         }
 
         @Override
