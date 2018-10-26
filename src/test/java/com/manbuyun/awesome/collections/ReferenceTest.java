@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * Date: 2018-04-30
  */
 @Slf4j
-public class ConcurrentReferenceMap {
+public class ReferenceTest {
 
     private Sleeper sleeper = new DefaultSleeper();
 

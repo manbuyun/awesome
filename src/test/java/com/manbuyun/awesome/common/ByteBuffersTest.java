@@ -9,10 +9,10 @@ import java.nio.charset.StandardCharsets;
  * User: cs
  * Date: 2018-05-02
  */
-public class TestByteBuffers {
+public class ByteBuffersTest {
 
     @Test
-    public void testToByteBuffer() {
+    public void testToBytes() {
         byte[] b = "Hello_World".getBytes(StandardCharsets.UTF_8);
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(b);

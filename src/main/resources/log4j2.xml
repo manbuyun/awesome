@@ -22,7 +22,7 @@
     </appenders>
 
     <loggers>
-        <Root level="info" includeLocation="true">
+        <Root level="error" includeLocation="true">
             <appender-ref ref="Console"/>
         </Root>
     </loggers>
