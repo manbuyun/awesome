@@ -22,8 +22,7 @@ public class OperatorTest extends DataStreamTestBase {
      * intoWindow: 就是在15~20窗口
      */
     @Test
-    public void test() throws Exception {
-
+    public void test() {
         DataStreamSource<Tuple2<Integer, String>> source = createTimedTestStreamWith(Tuple2.of(1, "fritz"))
                 .emit(Tuple2.of(1, "hans"), after(1, TimeUnit.SECONDS))
                 .emit(Tuple2.of(1, "heidi"), after(1, TimeUnit.SECONDS))
