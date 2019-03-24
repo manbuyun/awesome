@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -17,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class FutureTest {
 
     @Test
-    public void futureTest() {
-        ListenableFuture<String> future = getFuture();
+    public void futureTest1() {
+        ListenableFuture<String> future = getFuture1();
         Sleeper.sleepForQuietly(10, TimeUnit.SECONDS);
 
         try {
@@ -29,6 +30,17 @@ public class FutureTest {
         }
     }
 
+    @Test
+    public void futureTest2() {
+        CompletableFuture<String> future = getFuture2();
+        Sleeper.sleepForQuietly(10, TimeUnit.SECONDS);
+
+        future.whenComplete((result, error) -> {
+            // success
+            // error
+        });
+    }
+
     /**
      * 添加callback+超时cancel功能
      * 超时不是通过future.get()来阻塞实现，而是添加scheduler线程delay超时调起
@@ -37,7 +49,7 @@ public class FutureTest {
      *
      * @return
      */
-    private ListenableFuture<String> getFuture() {
+    private ListenableFuture<String> getFuture1() {
         ListeningExecutorService executors = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(3));
 
         ListenableFuture<String> result = executors.submit(() -> {
@@ -60,5 +72,23 @@ public class FutureTest {
         Futures.withTimeout(result, 3, TimeUnit.SECONDS, Executors.newSingleThreadScheduledExecutor());
 
         return result;
+    }
+
+    /**
+     * 直接返回CompletableFuture. onSuccess、onFailure直接通过whenComplete方法调用
+     * jdk9的CompletableFuture有timeout方法支持
+     *
+     * @return
+     */
+    private CompletableFuture<String> getFuture2() {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            Sleeper.sleepForQuietly(5, TimeUnit.SECONDS);
+            return "hi";
+        }, Executors.newSingleThreadExecutor());
+
+//      orTimeout
+//      completeOnTimeout
+
+        return future;
     }
 }
