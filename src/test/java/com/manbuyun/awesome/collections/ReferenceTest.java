@@ -2,7 +2,6 @@ package com.manbuyun.awesome.collections;
 
 import com.google.common.base.FinalizableReferenceQueue;
 import com.google.common.base.FinalizableWeakReference;
-import com.manbuyun.awesome.common.DefaultSleeper;
 import com.manbuyun.awesome.common.Sleeper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ReferenceTest {
 
-    private Sleeper sleeper = new DefaultSleeper();
-
     @Test
     public void concurrentWeakReference() {
         ConcurrentReferenceHashMap<String, String> map = new ConcurrentReferenceHashMap<>(16, ConcurrentReferenceHashMap.ReferenceType.WEAK);
@@ -32,7 +29,7 @@ public class ReferenceTest {
 
         System.gc();
 
-        sleeper.sleepForQuietly(3, TimeUnit.SECONDS);
+        Sleeper.sleepForQuietly(3, TimeUnit.SECONDS);
         log.info("map: {}", map);
     }
 
@@ -44,7 +41,7 @@ public class ReferenceTest {
 
         System.gc();
 
-        sleeper.sleepForQuietly(3, TimeUnit.SECONDS);
+        Sleeper.sleepForQuietly(3, TimeUnit.SECONDS);
         log.info("map: {}", map);
     }
 
@@ -71,7 +68,7 @@ public class ReferenceTest {
         // 因为System.gc()不一定会触发gc回收，所以验证r1.get()方法的返回值，就能判断name有没有被gc
         while (r1.get() != null && System.currentTimeMillis() - startTime < 10000) {
             System.gc();
-            sleeper.sleepForQuietly(3, TimeUnit.MILLISECONDS);
+            Sleeper.sleepForQuietly(3, TimeUnit.MILLISECONDS);
         }
 
         // 这里的r11就是弱引用r1对象，r11对象本身还没被回收，所以不为null，但调用r11.get()会返回null
@@ -112,10 +109,10 @@ public class ReferenceTest {
         System.gc();
         while (r1.get() != null && System.currentTimeMillis() - startTime < 10000) {
             System.gc();
-            sleeper.sleepForQuietly(3, TimeUnit.MILLISECONDS);
+            Sleeper.sleepForQuietly(3, TimeUnit.MILLISECONDS);
         }
 
-        sleeper.sleepForQuietly(1, TimeUnit.SECONDS);
+        Sleeper.sleepForQuietly(1, TimeUnit.SECONDS);
     }
 
     private static class Model extends WeakReference<String> {
