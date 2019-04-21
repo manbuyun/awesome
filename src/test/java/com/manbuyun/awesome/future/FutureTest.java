@@ -3,7 +3,6 @@ package com.manbuyun.awesome.future;
 import com.google.common.util.concurrent.*;
 import com.manbuyun.awesome.common.Sleeper;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -59,7 +58,7 @@ public class FutureTest {
 
         Futures.addCallback(result, new FutureCallback<String>() {
             @Override
-            public void onSuccess(@NullableDecl String result) {
+            public void onSuccess(String result) {
                 log.info("success");
             }
 
