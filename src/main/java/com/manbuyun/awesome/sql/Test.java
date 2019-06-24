@@ -14,13 +14,13 @@ public class Test {
      */
     //public static void main(String[] args) {
     //    // 新建词法分析器，处理输入InputStream
-    //    com.manbuyun.awesome.sql.SqlBaseLexer lexer = new com.manbuyun.awesome.sql.SqlBaseLexer(CharStreams.fromString("{1,{2,3},4}"));
+    //    com.manbuyun.awesome.sql.com.manbuyun.awesome.sql.SqlBaseLexer lexer = new com.manbuyun.awesome.sql.com.manbuyun.awesome.sql.SqlBaseLexer(CharStreams.fromString("{1,{2,3},4}"));
     //
     //    // 新建词法分析器缓冲区，存储词法分析器生成的词法符号
     //    CommonTokenStream tokens = new CommonTokenStream(lexer);
     //
     //    // 新建语法分析器，处理词法符号缓冲区的内容
-    //    com.manbuyun.awesome.sql.SqlBaseParser parser = new com.manbuyun.awesome.sql.SqlBaseParser(tokens);
+    //    com.manbuyun.awesome.sql.com.manbuyun.awesome.sql.SqlBaseParser parser = new com.manbuyun.awesome.sql.com.manbuyun.awesome.sql.SqlBaseParser(tokens);
     //
     //    // 从init规则(起始规则名)，开始语法分析
     //    ParseTree tree = parser.init();
@@ -37,9 +37,9 @@ public class Test {
     //    System.out.println("END");
     //}
     //
-    //public static class StringListener extends SqlBaseBaseListener {
+    //public static class StringListener extends com.manbuyun.awesome.sql.SqlBaseBaseListener {
     //    @Override
-    //    public void enterValue(com.manbuyun.awesome.sql.SqlBaseParser.ValueContext ctx) {
+    //    public void enterValue(com.manbuyun.awesome.sql.com.manbuyun.awesome.sql.SqlBaseParser.ValueContext ctx) {
     //        Integer value = Integer.valueOf(ctx.INT().getText());
     //        System.out.println(value);
     //    }
