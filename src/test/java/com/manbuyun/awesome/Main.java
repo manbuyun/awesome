@@ -1,6 +1,7 @@
 package com.manbuyun.awesome;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 /**
  * @author jinhai

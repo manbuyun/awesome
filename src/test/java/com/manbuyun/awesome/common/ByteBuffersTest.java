@@ -1,6 +1,7 @@
 package com.manbuyun.awesome.common;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;

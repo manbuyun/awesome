@@ -1,9 +1,13 @@
 package com.manbuyun.awesome.future;
 
-import com.google.common.util.concurrent.*;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.manbuyun.awesome.common.Sleeper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;

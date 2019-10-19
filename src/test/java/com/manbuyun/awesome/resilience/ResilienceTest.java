@@ -2,7 +2,7 @@ package com.manbuyun.awesome.resilience;
 
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.time.Duration;
 

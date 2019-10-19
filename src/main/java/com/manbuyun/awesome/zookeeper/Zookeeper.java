@@ -1,6 +1,7 @@
 package com.manbuyun.awesome.zookeeper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.curator.CuratorZookeeperClient;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.CuratorEventType;
@@ -15,11 +16,14 @@ import org.apache.curator.framework.recipes.leader.LeaderSelector;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.test.KillSession;
+import org.apache.curator.test.TestingServer;
 import org.apache.curator.utils.CloseableUtils;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.Stat;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Executors;
@@ -44,11 +48,14 @@ public class Zookeeper {
      *
      * @throws Exception
      */
+    @Before
     public void init() throws Exception {
         // 默认时，会话超时60s，连接创建超时15s，尝试连接的间隔是指数算法
         // 该客户端对zookeeper的操作都是基于/test相对目录进行，不需要create这个节点。这里不加反斜线！
         // ExponentialBackoffRetry: zk连接异常时，自动重连策略。curator: 所有的操作forPath，都是执行RetryLoop.callWithRetry，封装StandardConnectionHandlingPolicy.callWithRetry
         client = CuratorFrameworkFactory.builder().connectString("10.104.111.35:2181").sessionTimeoutMs(60000).connectionTimeoutMs(15000).retryPolicy(new ExponentialBackoffRetry(5000, 3)).namespace("test").build();
+
+//        client = CuratorFrameworkFactory.newClient(new TestingServer().getConnectString(), new ExponentialBackoffRetry(1000, 3));
 
         // 连接状态监听事件。先1.新建连接，连接不上时，先2.暂停操作，后3.连接丢失，恢复连接后4.重新连接
         // 官方wiki：http://curator.apache.org/errors.html
@@ -294,6 +301,7 @@ public class Zookeeper {
      *
      * @throws Exception
      */
+    @Test
     public void leaderLatch() throws Exception {
         // 最后一个参数是id，也就是leader的info信息：host、port等序列化。/test/leader_latch
         LeaderLatch leader = new LeaderLatch(client, "/leader_election", "localhost");
@@ -331,6 +339,7 @@ public class Zookeeper {
     }
 
     public void kill() throws Exception {
-        KillSession.kill(client.getZookeeperClient().getZooKeeper());
+        CuratorZookeeperClient zkClient = client.getZookeeperClient();
+        KillSession.kill(zkClient.getZooKeeper(), zkClient.getCurrentConnectionString());
     }
 }

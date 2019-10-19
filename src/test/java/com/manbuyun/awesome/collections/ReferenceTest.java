@@ -5,7 +5,7 @@ import com.google.common.base.FinalizableWeakReference;
 import com.manbuyun.awesome.common.Sleeper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 import java.lang.ref.Reference;
