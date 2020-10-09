@@ -15,8 +15,6 @@ import org.apache.curator.framework.recipes.leader.LeaderLatchListener;
 import org.apache.curator.framework.recipes.leader.LeaderSelector;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.curator.test.KillSession;
-import org.apache.curator.test.TestingServer;
 import org.apache.curator.utils.CloseableUtils;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
@@ -340,6 +338,6 @@ public class Zookeeper {
 
     public void kill() throws Exception {
         CuratorZookeeperClient zkClient = client.getZookeeperClient();
-        KillSession.kill(zkClient.getZooKeeper(), zkClient.getCurrentConnectionString());
+//        KillSession.kill(zkClient.getZooKeeper(), zkClient.getCurrentConnectionString());
     }
 }
